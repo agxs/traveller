@@ -18,6 +18,55 @@ size = {
   10: '16000 km'
 }
 
+atmosphere = {
+  0: 'None',
+  1: 'Trace',
+  2: 'Very Thin, Tainted',
+  3: 'Very Thin',
+  4: 'Thin, Tainted',
+  5: 'Thin',
+  6: 'Standard',
+  7: 'Standard, Tainted',
+  8: 'Dense',
+  9: 'Dense, Tainted',
+  10: 'Exotic',
+  11: 'Corrosive',
+  12: 'Insidious',
+  13: 'Dense, High',
+  14: 'Thin, Low',
+  15: 'Unusual'
+}
+
+hydrohraphics = {
+  0: '0%-5% Desert world',
+  1: '6%-15% Dry world',
+  2: '16%-25% A few small seas',
+  3: '26%-35% Small seas and oceans',
+  4: '36%-45% Wet world',
+  5: '46%-55% Large oceans',
+  6: '56%-65%',
+  7: '66%-75% Earth-like world',
+  8: '76%-85% Water world',
+  9: '86%-95% Only a few small islands and archipelagos',
+  10: '95%-100% Almost entirely water'
+}
+
+population = {
+  0: 'None',
+  1: 'Few',
+  2: 'Hundreds',
+  3: 'Thousands',
+  4: 'Tens of thousands',
+  5: 'Hundreds of thousands',
+  6: 'Millions',
+  7: 'Tens of millions',
+  8: 'Hundreds of millions',
+  9: 'Billions',
+  10: 'Tens of billions',
+  11: 'Hundreds of billions',
+  12: 'Trillions'
+}
+
 techLevel = {
   1: 'Low Tech',
   2: 'Medium Tech',

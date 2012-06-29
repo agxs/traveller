@@ -133,7 +133,7 @@ class Planet(models.Model):
   )
 
   name = models.CharField( max_length = 64 )
-  location = models.CharField( max_length = 8 )
+  location = models.CharField( max_length = 8, unique=True )
   starport = models.CharField( max_length = 1, choices = STARPORT_CHOICES )
   size = models.IntegerField( choices = SIZE_CHOICES )
   atmosphere = models.IntegerField( choices = ATMOSPHERE_CHOICES )

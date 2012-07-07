@@ -1,4 +1,5 @@
 from django.db import models
+import re
 
 # Create your models here.
 
@@ -157,7 +158,79 @@ class Planet(models.Model):
   zone = models.CharField( max_length = 1, blank=True )
 
   notes = models.TextField( blank=True, null=True )
-
+  
+  def isAgricultural( self ):
+    return self.atmosphere >= 4 and self.atmosphere <= 9 and \
+           self.hydrographics >= 4 and self.hydrographics <= 8 and \
+           self.population >= 5 and self.population <= 7
+  
+  def isAsteroid( self ):
+    return self.size == 0 and self.atmosphere == 0 and self.hydrographics == 0
+  
+  def isBarren( self ):
+    return self.population == 0 and self.government == 0 and self.law_level == 0
+  
+  def isDesert( self ):
+    return self.atmosphere >= 2 and self.hydrographics == 0
+  
+  def isFluidOcean( self ):
+    return self.atmosphere >= 10 and self.hydrographics >= 1
+  
+  def isGarden( self ):
+    return self.size >= 5 and self.atmosphere >= 4 and self.atmosphere <= 9 and \
+           self.hydrographics >= 4 and self.hydrographics <= 8
+  
+  def isHighPopulation( self ):
+    return self.population >= 9
+  
+  def isHighTechnology( self ):
+    return self.tech_level >= 12
+  
+  def isIceCapped( self ):
+    return self.atmosphere >= 0 and self.atmosphere <= 1 and self.hydrographics >= 1
+  
+  def isIndustrial( self ):
+    return ( self.atmosphere == 0 or self.atmosphere == 1 or self.atmosphere == 2 or \
+             self.atmosphere == 4 or self.atmosphere == 7 or self.atmosphere == 9 ) and \
+             self.population >= 9
+  
+  def isLowPopulation( self ):
+    return self.population >= 1 and self.population <= 3
+  
+  def isLowTechnology( self ):
+    return self.tech_level <= 5
+  
+  def isNonAgricultural( self ):
+    return self.atmosphere >= 0 and self.atmosphere <= 3 and \
+           self.hydrographics >= 0 and self.hydrographics <= 3 and \
+           self.population >= 6
+  
+  def isNonIndustrial( self ):
+    return self.population >= 4 and self.population <= 6
+  
+  def isPoor( self ):
+    return self.atmosphere >= 2 and self.atmosphere <= 5 and \
+           self.hydrographics >= 0 and self.hydrographics <= 3
+  
+  def isRich( self ):
+    return ( self.atmosphere == 6 or self.atmosphere == 8 ) and \
+             self.population >= 6 and self.population <= 8
+  
+  def isVacuum( self ):
+    return self.atmosphere == 0
+  
+  def isWaterWorld( self ):
+    return self.hydrographics == 10
+  
+  def isGreenZone( self ):
+    return re.compile('G', re.IGNORECASE).match( self.zone )
+  
+  def isAmberZone( self ):
+    return re.compile('A', re.IGNORECASE).match( self.zone )
+  
+  def isRedZone( self ):
+    return re.compile('R', re.IGNORECASE).match( self.zone )
+  
   def toJSON(self):
     return {
       'name': self.name,

@@ -4,6 +4,7 @@ urlpatterns = patterns('',
     url(r'^$', 'trading.views.index'),
     url(r'^receiveInitial$', 'trading.views.receiveInitial'),
     url(r'^rollForPassengers$', 'trading.views.rollForPassengers'),
+    url(r'^receiveRollForPassengers$', 'trading.views.receiveRollForPassengers'),
     
     url(r'^mock$', 'trading.views.mock'),
 )

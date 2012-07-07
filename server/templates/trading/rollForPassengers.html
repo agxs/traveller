@@ -1,0 +1,21 @@
+{% extends "trading/base.html" %}
+
+{% block content %}
+<div class="container">
+  <h3>Roll for passengers</h3>
+  <form class="form-horizontal well">
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="carouse">Carouse or Streetwise</label>
+        <div class="controls">
+          <input id="carouse" type="text" />
+          <p class="help-inline">Highest of the two should be used.</p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="Engage!" />
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

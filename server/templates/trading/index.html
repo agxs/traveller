@@ -1,0 +1,49 @@
+{% extends "trading/base.html" %}
+
+{% block content %}
+<div class="container">
+  <h3>Set planets</h3>
+  <form class="form-horizontal well" method="POST" action="receiveInitial">
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="startPlanet">Start Planet</label>
+        <div class="controls">
+          <input id="startPlanet" type="text" placeholder="0309" name="startPlanet" />
+          <p class="help-inline">Location of start planet.</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="destinationPlanet">Destination Planet</label>
+        <div class="controls">
+          <input id="destinationPlanet" type="text" placeholder="0208" name="destinationPlanet" />
+          <p class="help-inline">Location of destination planet.</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="availableCargo">Cargo Space</label>
+        <div class="controls">
+          <input id="availableCargo" type="text" placeholder="88" name="availableCargo" />
+          <p class="help-inline">Cargo space is in tonnes.</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="numStateRooms">Number of State Rooms</label>
+        <div class="controls">
+          <input id="numStateRooms" type="text" placeholder="6" name="numStateRooms" />
+          <p class="help-inline">Total number of state rooms available for passengers.</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="addMail">Roll For Mail</label>
+        <div class="controls">
+          <input id="addMail" type="checkbox" name="addMail" />
+          <p class="help-inline">Attempt a roll to see if mail is available for this route.</p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="Engage!" />
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <!-- <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script> -->
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <title>Traveller Automated Trading</title>
+  </head>
+  <body>
+    <div class="container">
+      <p>This is a UI mockup. Each section here represents a page. The idea
+         is that a user enters the appropriate information for a page, and
+         hits engage. More information will be presented back to the user
+         along with new information to enter.</p>
+    </div>
+    <div class="container">
+      <h3>Set planets</h3>
+      <form class="form-horizontal well">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="startPlanet">Start Planet</label>
+            <div class="controls">
+              <input id="startPlanet" type="text" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="destinationPlanet">Destination Planet</label>
+            <div class="controls">
+              <input id="destinationPlanet" type="text" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="availableCargo">Cargo Space</label>
+            <div class="controls">
+              <input id="availableCargo" type="text" />
+              <p class="help-inline">Cargo space is in tonnes.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="numStateRooms">Number of State Rooms</label>
+            <div class="controls">
+              <input id="numStateRooms" type="text" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="addMail">Add Mail</label>
+            <div class="controls">
+              <input id="addMail" type="checkbox" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Engage!" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <hr />
+    <div class="container">
+      <h3>Roll for passengers</h3>
+      <form class="form-horizontal well">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="carouse">Carouse or Streetwise</label>
+            <div class="controls">
+              <input id="carouse" type="text" />
+              <p class="help-inline">Highest of the two should be used.</p>
+            </div>
+          </div>
+          <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Engage!" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <hr />
+    <div class="container">
+      <h3>Select passengers</h3>
+      <form class="form-horizontal well">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label">High</label>
+            <div class="controls">
+              <label class="checkbox" for="passengerHigh1">
+                <input id="passengerHigh1" type="checkbox" />
+                High 1
+              </label>
+              <label class="checkbox" for="passengerHigh2">
+                <input id="passengerHigh2" type="checkbox" />
+                High 2
+              </label>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Middle</label>
+            <div class="controls">
+              <label class="checkbox" for="passengerMiddle3">
+                <input id="passengerMiddle3" type="checkbox" />
+                Middle 3
+              </label>
+              <label class="checkbox" for="passengerMiddle4">
+                <input id="passengerMiddle4" type="checkbox" />
+                Middle 4
+              </label>
+              <label class="checkbox" for="passengerMiddle5">
+                <input id="passengerMiddle5" type="checkbox" />
+                Middle 5
+              </label>
+              <label class="checkbox" for="passengerMiddle6">
+                <input id="passengerMiddle6" type="checkbox" />
+                Middle 6
+              </label>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="passengerLow">Low</label>
+            <div class="controls">
+              <select id="passengerLow">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+              <p class="help-inline">4 available.</p>
+            </div>
+          </div>
+          <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Engage!" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <hr />
+    <div class="container">
+      <h3>Mail</h3>
+      <form class="form-horizontal well">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="armed">Ship armed?</label>
+            <div class="controls">
+              <input id="armed" type="checkbox" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="navalScoutRank">Highest Naval or Scout rank</label>
+            <div class="controls">
+              <input id="navalScoutRank" type="text" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="socialStanding">Highest Social Standing DM</label>
+            <div class="controls">
+              <input id="socialStanding" type="text" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Engage!" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <hr />
+    <div class="container">
+      <h3>Speculative Trade &amp; Smuggling</h3>
+      <form class="form-horizontal well">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label">Find Supplier</label>
+            <div class="controls">
+              <label class="radio inline" for="normal">
+                <input id="normal" name="supplier" type="radio" />
+                Normal
+              </label>
+              <label class="radio inline" for="blackMarket">
+                <input id="blackMarket" name="supplier" type="radio" />
+                Black Market
+              </label>
+              <label class="radio inline" for="online">
+                <input id="online" name="supplier" type="radio" />
+                Online
+              </label>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="supplier">Supplier roll</label>
+            <div class="controls">
+              <input type="text" id="supplier" />
+              <p class="help-inline">Players search roll, including all modifiers(including Starport modifier).</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="broker">Broker skill</label>
+            <div class="controls">
+              <input type="text" id="broker" />
+              <p class="help-inline">Players broker skill.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="intOrSocial">Intelligence or Social</label>
+            <div class="controls">
+              <input type="text" id="broker" />
+              <p class="help-inline">Players Intelligence or Social Standing DM, whichever is higher.</p>
+            </div>
+          </div>
+          <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Engage!" />
+          </div>
+        </fieldset>
+      </form>
+      <form class="form-inline well">
+        <h4>Black Market supplier found!</h4>
+        <fieldset>
+          <table class="table table-bordered">
+            <thead>
+              <th>Item</th><th>Base Cost (Cr.)</th><th>Purchase DM</th><th class="span1">Negotiate</th><th>Negotiated Price (Cr.)</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Basic Electronics</td><td>25,000</td><td>+0</td><td><input class="btn btn-inverse" type="submit" value="Negotiate" /></td><td></td>
+              </tr>
+              <tr>
+                <td>Basic Vehicles</td><td>35,000</td><td>+0</td><td><input class="btn btn-inverse" type="submit" value="Negotiate" /></td><td></td>
+              </tr>
+              <tr>
+                <td>Petrochemicals</td><td>10,000</td><td>+2</td><td><input class="btn btn-inverse" type="submit" value="Negotiate" /></td><td></td>
+              </tr>
+              <tr>
+                <td>Radioactives</td><td>1,000,000</td><td>+0</td><td><input class="btn btn-inverse" type="submit" value="Negotiate" /></td><td></td>
+              </tr>
+              <tr>
+                <td>Illegal Drugs</td><td>100,000</td><td>+1</td><td><input type="text" placeholder="5 Available"/></td><td>90,000</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Purchase" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <hr />
+    <div class="container">
+      <h3>Add Freight</h3>
+      <form class="form-horizontal well">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="addFreight">Add Freight</label>
+            <div class="controls">
+              <input id="addFreight" type="checkbox" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Engage!" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <hr />
+    <div class="container">
+      <h3>Freight</h3>
+      <form class="form-horizontal well">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label">Freight Options</label>
+            <div class="controls">
+              <label class="checkbox" for="freight1">
+                <input id="freight1" type="checkbox" />
+                10 tonnes
+              </label>
+              <label class="checkbox" for="freight2">
+                <input id="freight2" type="checkbox" />
+                10 tonnes
+              </label>
+              <label class="checkbox">
+                <input id="freight3" type="checkbox" />
+                50 tonnes
+              </label>
+              <label class="checkbox">
+                <input id="freight4" type="checkbox" />
+                80 tonnes
+              </label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Engage!" />
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </body>
+</html>

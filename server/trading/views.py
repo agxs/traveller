@@ -1,11 +1,11 @@
-from django.template import Context, loader
+from django.template import RequestContext, loader
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from trading.passengers import calculateAvailablePassengers
 
 def index( request ):
   t = loader.get_template( 'trading/index.html' )
-  c = Context( {} )
+  c = RequestContext( request, {} )
   return HttpResponse( t.render( c ) )
 
 def receiveInitial( request ):
@@ -26,7 +26,7 @@ def receiveInitial( request ):
 
 def rollForPassengers( request ):
   t = loader.get_template( 'trading/rollForPassengers.html' )
-  c = Context( {} )
+  c = RequestContext( request, {} )
   return HttpResponse( t.render( c ) )
 
 def receiveRollForPassengers( request ):
@@ -38,5 +38,5 @@ def receiveRollForPassengers( request ):
 
 def mock( request ):
   t = loader.get_template( 'trading/mock.html' )
-  c = Context( {} )
+  c = RequestContext( request, {} )
   return HttpResponse( t.render( c ) )

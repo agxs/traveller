@@ -28,24 +28,38 @@ def tradingPassenger( request ):
     if form.is_valid():
       request.session['passenger'] = form.cleaned_data
       
+      if 'availablePassengers' not in request.session:
+        availablePassengers = calculateAvailablePassengers( request.session['tradingCore'], \
+                                                            request.session['passenger'] )
+        request.session['availablePassengers'] = availablePassengers
+        print "Calculating new available passengers: " + str( availablePassengers )
+      else:
+        print "Reusing available passengers from session: " + str( request.session['availablePassengers'] )
+        
       return redirect( '/trading/tradingSelectPassenger' )
     else:
       raise Exception( 'Form not valid', form.errors )
 
 def tradingSelectPassenger( request ):
   if request.method == 'GET':
-    if 'availablePassengers' not in request.session:
-      availablePassengers = calculateAvailablePassengers( request.session['tradingCore'], \
-                                                          request.session['passenger'] )
-      request.session['availablePassengers'] = availablePassengers
-      print "Calculating new available passengers: " + str( availablePassengers )
-    else:
-      print "Reusing available passengers from session: " + str( request.session['availablePassengers'] )
     t = loader.get_template( 'trading/tradingSelectPassenger.html' )
-    c = RequestContext( request, {} )
+    c = RequestContext( request, {
+      'high': range( request.session['availablePassengers']['high'] + 1 ),
+      'middle': range( request.session['availablePassengers']['middle'] + 1 ),
+      'low': range( request.session['availablePassengers']['low'] + 1),
+    } )
     return HttpResponse( t.render( c ) )
   elif request.method == 'POST':
-    pass
+    form = TradingSelectPassengerForm( request.POST )
+    if form.is_valid():
+      request.session['selectPassenger'] = form.cleaned_data
+      
+      # TODO validate selection vs num staterooms/steward skill
+      # allocate available storage
+      
+      return redirect( '/trading/tradingMail' )
+    else:
+      raise Exception( 'Form not valid', form.errors )
 
 def tradingMail( request ):
   if request.method == 'GET':
@@ -83,6 +97,11 @@ class TradingCoreForm( forms.Form ):
 
 class TradingPassengerForm( forms.Form ):
   passengerRoll = forms.IntegerField()
+
+class TradingSelectPassengerForm( forms.Form ):
+  passengerHigh = forms.IntegerField()
+  passengerMiddle = forms.IntegerField()
+  passengerLow = forms.IntegerField()
 
 # Mock page
 def mock( request ):

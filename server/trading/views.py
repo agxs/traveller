@@ -42,6 +42,30 @@ def tradingSelectPassenger( request ):
   elif request.method == 'POST':
     pass
 
+def tradingMail( request ):
+  if request.method == 'GET':
+    pass
+  elif request.method == 'POST':
+    pass
+
+def tradingSpeculative( request ):
+  if request.method == 'GET':
+    pass
+  elif request.method == 'POST':
+    pass
+
+def tradingSelectSpeculative( request ):
+  if request.method == 'GET':
+    pass
+  elif request.method == 'POST':
+    pass
+
+def tradingSelectFreight( request ):
+  if request.method == 'GET':
+    pass
+  elif request.method == 'POST':
+    pass
+
 ################
 # Form objects #
 ################

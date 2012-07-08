@@ -231,6 +231,47 @@ class Planet(models.Model):
   def isRedZone( self ):
     return re.compile('R', re.IGNORECASE).match( self.zone )
   
+  def generateTradeCode( self ):
+    tradeCode = ""
+    if self.isAgricultural():
+      tradeCode += "Ag "
+    if self.isAsteroid():
+      tradeCode += "As "
+    if self.isBarren():
+      tradeCode += "Ba "
+    if self.isDesert():
+      tradeCode += "De "
+    if self.isFluidOcean():
+      tradeCode += "Fl "
+    if self.isGarden():
+      tradeCode += "Ga "
+    if self.isHighPopulation():
+      tradeCode += "Hi "
+    if self.isHighTechnology():
+      tradeCode += "Ht "
+    if self.isIceCapped():
+      tradeCode += "Ic "
+    if self.isIndustrial():
+      tradeCode += "In "
+    if self.isLowPopulation():
+      tradeCode += "Lo "
+    if self.isLowTechnology():
+      tradeCode += "Lt "
+    if self.isNonAgricultural():
+      tradeCode += "Na "
+    if self.isNonIndustrial():
+      tradeCode += "Ni "
+    if self.isPoor():
+      tradeCode += "Po "
+    if self.isRich():
+      tradeCode += "Ri "
+    if self.isVacuum():
+      tradeCode += "Va "
+    if self.isWaterWorld():
+      tradeCode += "Wa "
+    
+    return tradeCode.strip()
+    
   def toJSON(self):
     return {
       'name': self.name,

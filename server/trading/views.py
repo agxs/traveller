@@ -11,9 +11,9 @@ def index( request ):
 
 def receiveInitial( request ):
   if request.method == 'POST':
-    form = InitialForm (request.POST )
+    form = TradingCoreForm( request.POST )
     if form.is_valid():
-      request.session['initialForm'] = form.cleaned_data
+      request.session['tradingCore'] = form.cleaned_data
       
       return redirect( '/trading/rollForPassengers' )
     else:
@@ -27,7 +27,7 @@ def rollForPassengers( request ):
 
 def receiveRollForPassengers( request ):
   request.session['passengerRoll'] = request.POST.get( 'passengerRoll' )
-  availablePassengers = calculateAvailablePassengers( request.session['initialForm'], \
+  availablePassengers = calculateAvailablePassengers( request.session['tradingCore'], \
                                                       int( request.session['passengerRoll'] ) )
   return HttpResponse( "Low " + str( availablePassengers['low'] ) + \
                        "Middle " + str( availablePassengers['middle'] ) + \
@@ -35,7 +35,7 @@ def receiveRollForPassengers( request ):
 ################
 # Form objects #
 ################
-class InitialForm( forms.Form ):
+class TradingCoreForm( forms.Form ):
   startPlanet = forms.CharField( max_length=4 )
   destinationPlanet = forms.CharField( max_length = 4 )
   availableCargo = forms.IntegerField()

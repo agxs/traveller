@@ -22,6 +22,8 @@ def parseDiceExpr( expr ):
       value += __evalLiteral( __lexDiceExpr( e ) )
     elif ( t.type == __Token.MINUS ):
       value -= __evalLiteral( __lexDiceExpr( e ) )
+    elif ( t.type == __Token.MULT ):
+      value *= __evalLiteral( __lexDiceExpr( e ) )
     else:
       raise Exception( 'Parse error, unknown operator at ', t.position )
     t = __lexDiceExpr( e )
@@ -80,6 +82,10 @@ def __lexDiceExpr( expr ):
     t.type = __Token.MINUS
     t.position = expr.position
     expr.position += 1
+  elif ( expr.str[expr.position] == '*' ):
+    t.type = __Token.MULT
+    t.position = expr.position
+    expr.position += 1
   else:
     raise Exception( 'Invalid token', expr.str[expr.position] )
   
@@ -93,9 +99,9 @@ def __isDigit( c ):
   except ValueError:
     return False
 
-# Checks to see if the supplied character is a valid operator( + or - )
+# Checks to see if the supplied character is a valid operator( + or - or * )
 def __isOperator( c ):
-  return c == "+" or c == "-"
+  return c == "+" or c == "-" or c == "*"
 
 # Represents a lexical token
 class __Token:
@@ -103,8 +109,9 @@ class __Token:
   INT = 1
   PLUS = 2
   MINUS = 3
-  DICE = 4
-  END = 5
+  MULT = 4
+  DICE = 5
+  END = 6
   
   type = NONE
   value = 0

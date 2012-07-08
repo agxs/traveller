@@ -1,6 +1,7 @@
 from django.template import RequestContext, loader
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django import forms
 from trading.passengers import calculateAvailablePassengers
 
 def index( request ):
@@ -9,20 +10,15 @@ def index( request ):
   return HttpResponse( t.render( c ) )
 
 def receiveInitial( request ):
-  request.session['startPlanet'] = request.POST.get( 'startPlanet' )
-  request.session['destinationPlanet'] = request.POST.get( 'destinationPlanet' )
-  
-  # Store the entered cargo space, and also keep track of a running total
-  request.session['availableCargo'] = request.POST.get( 'availableCargo' )
-  request.session['initialCargo'] = request.POST.get( 'availableCargo' )
-  
-  # Same with the number of available state rooms
-  request.session['numStateRooms'] = request.POST.get( 'numStateRooms' )
-  request.session['initialStateRooms'] = request.POST.get( 'numStateRooms' )
-  
-  request.session['addMail'] = request.POST.get( 'addMail' )
-  
-  return redirect( '/trading/rollForPassengers' )
+  if request.method == 'POST':
+    form = InitialForm (request.POST )
+    if form.is_valid():
+      request.session['initialForm'] = form.cleaned_data
+      
+      return redirect( '/trading/rollForPassengers' )
+    else:
+      raise Exception( 'Form not valid', form.errors )
+  raise Exception( 'Method needs to be POST' )
 
 def rollForPassengers( request ):
   t = loader.get_template( 'trading/rollForPassengers.html' )
@@ -31,11 +27,22 @@ def rollForPassengers( request ):
 
 def receiveRollForPassengers( request ):
   request.session['passengerRoll'] = request.POST.get( 'passengerRoll' )
-  availablePassengers = calculateAvailablePassengers( request )
+  availablePassengers = calculateAvailablePassengers( request.session['initialForm'], \
+                                                      int( request.session['passengerRoll'] ) )
   return HttpResponse( "Low " + str( availablePassengers['low'] ) + \
                        "Middle " + str( availablePassengers['middle'] ) + \
                        "High " + str( availablePassengers['high'] ) )
+################
+# Form objects #
+################
+class InitialForm( forms.Form ):
+  startPlanet = forms.CharField( max_length=4 )
+  destinationPlanet = forms.CharField( max_length = 4 )
+  availableCargo = forms.IntegerField()
+  numStateRooms = forms.IntegerField()
+  addMail = forms.BooleanField( required=False )
 
+# Mock page
 def mock( request ):
   t = loader.get_template( 'trading/mock.html' )
   c = RequestContext( request, {} )

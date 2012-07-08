@@ -42,13 +42,13 @@ PASSENGER_TRAFFIC_VALUE = (
   { 'low': "9d6", 'middle': "6d6", 'high': "5d6" }, #16+
 )
 
-def calculateAvailablePassengers( request ):
+def calculateAvailablePassengers( initialForm, passengerRoll ):
   # Total passengers = start planet population + start planet traffic mod +
   #                                              end planet traffic mod +
   #                                              half Effect of player roll
-  startPlanet = get_object_or_404( Planet, location__exact=request.session['startPlanet'] )
-  endPlanet = get_object_or_404( Planet, location__exact=request.session['destinationPlanet'] )
-  effect = int( math.ceil( int( request.session['passengerRoll'] ) / 2 ) )
+  startPlanet = get_object_or_404( Planet, location__exact=initialForm['startPlanet'] )
+  endPlanet = get_object_or_404( Planet, location__exact=initialForm['destinationPlanet'] )
+  effect = int( math.ceil( passengerRoll / 2 ) )
   
   dm = startPlanet.population + __calculateCurrentPlanetDM( startPlanet ) + \
                                 __calculateDestinationPlanetDM( endPlanet ) + \

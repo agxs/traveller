@@ -34,11 +34,16 @@ def tradingPassenger( request ):
 
 def tradingSelectPassenger( request ):
   if request.method == 'GET':
-    availablePassengers = calculateAvailablePassengers( request.session['tradingCore'], \
-                                                      int( request.session['passengerRoll'] ) )
-    return HttpResponse( "Low " + str( availablePassengers['low'] ) + \
-                         "Middle " + str( availablePassengers['middle'] ) + \
-                         "High " + str( availablePassengers['high'] ) )
+    if 'availablePassengers' not in request.session:
+      availablePassengers = calculateAvailablePassengers( request.session['tradingCore'], \
+                                                          request.session['passenger'] )
+      request.session['availablePassengers'] = availablePassengers
+      print "Calculating new available passengers: " + str( availablePassengers )
+    else:
+      print "Reusing available passengers from session: " + str( request.session['availablePassengers'] )
+    t = loader.get_template( 'trading/tradingSelectPassenger.html' )
+    c = RequestContext( request, {} )
+    return HttpResponse( t.render( c ) )
   elif request.method == 'POST':
     pass
 

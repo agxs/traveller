@@ -1,0 +1,61 @@
+{% extends "trading/base.html" %}
+
+{% block content %}
+<div class="container">
+  <h3>Select passengers</h3>
+  <form class="form-horizontal well">
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label">High</label>
+        <div class="controls">
+          <label class="checkbox" for="passengerHigh1">
+            <input id="passengerHigh1" type="checkbox" />
+            High 1
+          </label>
+          <label class="checkbox" for="passengerHigh2">
+            <input id="passengerHigh2" type="checkbox" />
+            High 2
+          </label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Middle</label>
+        <div class="controls">
+          <label class="checkbox" for="passengerMiddle3">
+            <input id="passengerMiddle3" type="checkbox" />
+            Middle 3
+          </label>
+          <label class="checkbox" for="passengerMiddle4">
+            <input id="passengerMiddle4" type="checkbox" />
+            Middle 4
+          </label>
+          <label class="checkbox" for="passengerMiddle5">
+            <input id="passengerMiddle5" type="checkbox" />
+            Middle 5
+          </label>
+          <label class="checkbox" for="passengerMiddle6">
+            <input id="passengerMiddle6" type="checkbox" />
+            Middle 6
+          </label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="passengerLow">Low</label>
+        <div class="controls">
+          <select id="passengerLow">
+            <option>0</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
+          <p class="help-inline">4 available.</p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="Engage!" />
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

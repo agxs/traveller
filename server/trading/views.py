@@ -109,6 +109,7 @@ class TradingCoreForm( forms.Form ):
   destinationPlanet = forms.CharField( max_length = 4 )
   availableCargo = forms.IntegerField()
   numStateRooms = forms.IntegerField()
+  numLowBerths = forms.IntegerField()
   addMail = forms.BooleanField( required=False )
 
 class TradingPassengerForm( forms.Form ):

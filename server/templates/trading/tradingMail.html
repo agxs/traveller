@@ -1,0 +1,33 @@
+{% extends "trading/base.html" %}
+
+{% block content %}
+<div class="container">
+  <h3>Mail</h3>
+  <form class="form-horizontal well" method="POST" action="tradingMail">
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="armed">Ship armed?</label>
+        <div class="controls">
+          <input id="armed" name="armed" type="checkbox" />
+          <p class="help-inline">Punching doesn't count.</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="navalScoutRank">Highest Naval or Scout rank</label>
+        <div class="controls">
+          <input id="navalScoutRank" name="navalScoutRank" type="text" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="socialStanding">Highest Social Standing DM</label>
+        <div class="controls">
+          <input id="socialStanding" name="socialStanding" type="text" />
+        </div>
+      </div>
+      <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="Engage!" />
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

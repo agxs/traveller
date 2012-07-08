@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django import forms
 from trading.passengers import calculateAvailablePassengers
+from trading.mail import canCarryMail
 
 def tradingCore( request ):
   if request.method == 'GET':
@@ -63,9 +64,24 @@ def tradingSelectPassenger( request ):
 
 def tradingMail( request ):
   if request.method == 'GET':
-    pass
+    t = loader.get_template( 'trading/tradingMail.html' )
+    c = RequestContext( request, {} )
+    return HttpResponse( t.render( c ) )
   elif request.method == 'POST':
-    pass
+    form = TradingMail( request.POST )
+    if form.is_valid():
+      request.session['tradingMail'] = form.cleaned_data
+      
+      if 'canCarryMail' not in request.session:
+        mail = canCarryMail( request.session['tradingCore'], request.session['tradingMail'] )
+        request.session['canCarryMail'] = mail
+        print "Calculating new Can carry mail: " + str( request.session['canCarryMail'] )
+      else:
+        print "Reusing mail from session: " + str( request.session['canCarryMail'] )
+      
+      return HttpResponse( 'Can carry mail: ' + str( request.session['canCarryMail'] ) )
+    else:
+      raise Exception( 'Form not valid', form.errors )
 
 def tradingSpeculative( request ):
   if request.method == 'GET':
@@ -102,6 +118,11 @@ class TradingSelectPassengerForm( forms.Form ):
   passengerHigh = forms.IntegerField()
   passengerMiddle = forms.IntegerField()
   passengerLow = forms.IntegerField()
+
+class TradingMail( forms.Form ):
+  armed = forms.BooleanField()
+  navalScoutRank = forms.IntegerField()
+  socialStanding = forms.IntegerField()
 
 # Mock page
 def mock( request ):

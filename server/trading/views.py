@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django import forms
 from trading.passengers import calculateAvailablePassengers
 from trading.mail import canCarryMail
+from trading.speculative import determineGoodsAvailable
 
 def tradingCore( request ):
   if request.method == 'GET':
@@ -79,15 +80,25 @@ def tradingMail( request ):
       else:
         print "Reusing mail from session: " + str( request.session['canCarryMail'] )
       
-      return HttpResponse( 'Can carry mail: ' + str( request.session['canCarryMail'] ) )
+      return redirect( '/trading/tradingSpeculative' )
     else:
       raise Exception( 'Form not valid', form.errors )
 
 def tradingSpeculative( request ):
   if request.method == 'GET':
-    pass
+    t = loader.get_template( 'trading/tradingSpeculative.html' )
+    c = RequestContext( request, {} )
+    return HttpResponse( t.render( c ) )
   elif request.method == 'POST':
-    pass
+    form = TradingSpeculative( request.POST )
+    if form.is_valid():
+      request.session['tradingSpeculative'] = form.cleaned_data
+      
+      goods = determineGoodsAvailable( request.session['tradingSpeculative'] )
+      
+      return HttpResponse( str( goods ) )
+    else:
+      raise Exception( 'Form not valid', form.errors )
 
 def tradingSelectSpeculative( request ):
   if request.method == 'GET':
@@ -124,6 +135,12 @@ class TradingMail( forms.Form ):
   armed = forms.BooleanField()
   navalScoutRank = forms.IntegerField()
   socialStanding = forms.IntegerField()
+
+class TradingSpeculative( forms.Form ):
+  supplier = forms.CharField()
+  search = forms.IntegerField()
+  broker = forms.IntegerField()
+  intOrSocial = forms.IntegerField()
 
 # Mock page
 def mock( request ):

@@ -358,30 +358,6 @@ template
       '': 0,
     } ),
 '''
-#13 Basic Manufactured
-#Goods
-#All 1d6 ∞ 10 10,000 Non-Agricultural +2,
-#Industrial +5
-#Non-Industrial +3.
-#High Population +2
-#Household appliances, clothing
-#and so forth.
-#14 Basic Raw Materials All 1d6 ∞ 10 5,000 Agricultural +3,
-#Garden +2
-#Industrial +2,
-#Poor +2
-#Metal, plastics, chemicals and other
-#basic materials.
-#15 Basic Consumables All 1d6 ∞ 10 2,000 Agricultural +3,
-#Water World +2,
-#Garden +1,
-#Asteroid –4
-#Asteroid +1,
-#Fluid Oceans +1,
-#Ice Capped +1,
-#High Population +1
-#Food, drink and other agricultural
-#products
 
 def determineGoodsAvailable( tradingSpeculative ):
   # roll for common goods

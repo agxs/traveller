@@ -1,0 +1,25 @@
+body{
+	background: #000;
+}
+
+#ticker-area{
+	background: #000;
+        border: 4px solid #060;
+	border-left: none;
+        border-right: none;
+	border-top: none;
+        padding: 4px;
+	font-family: 'Orbitron';
+	font-size: 12pt;
+	font-weight: normal;
+	color: #2f2;
+}
+
+#sphere3d{
+	float: left;
+	border: 0px;
+	padding: 5px;
+        background: black;
+        display: block;
+
+}

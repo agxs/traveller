@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Planet data!</title>
+        <link href="/static/data.css" rel="stylesheet" type="text/css" />
+        <link href='http://fonts.googleapis.com/css?family=Orbitron:400,500' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            var planetName="";
+            var planetSize=10;
+            var tickerText="";
+            var c = 0;
+            var isInTag = false;
+            function typetext() {
+              //alert(tickerText);
+              var thisChar = tickerText.substr(c, 1);
+              if( thisChar == '<' ){ isInTag = true; }
+              if( thisChar == '>' ){ isInTag = false; }
+              $('#ticker-area').html("&nbsp;" + tickerText.substr(0, c++));
+              if(c < tickerText.length+1){
+                if( isInTag ){
+                  typetext();
+                }else{
+                  setTimeout("typetext()", 14);
+                }
+              }else{
+                c = 1;
+                tickerText = "";
+              }
+            }
+
+            $(document).ready(function() {
+                // do stuff when DOM is ready
+                var container = $("#ticker-area");
+                $.getJSON("/planets/{{ planet_id }}", null,
+                  function(data) {
+                    // do something with the JSON that we've been passed back.
+                    $.each(data, function(key, val) {
+                        tickerText = tickerText + key + ' : : ' + val + '<br/>';
+                        if(key=='name'){
+                          planetName = val;
+                        }
+                        if(key=='size'){
+                          planetSize = val;
+                        }
+                    });
+                    typetext();
+                  }
+                );
+            });
+
+            var sphere = new Sphere3D(2.0 * planetSize);
+            var rotation = 0;
+            var distance = 0;
+
+            function Point3D() {
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+            }
+            
+            function Sphere3D(radius) {
+                this.point = new Array();
+                this.color = "rgb(100,0,255)"
+                this.radius = (typeof(radius) == "undefined") ? 20.0 : radius;
+                this.radius = (typeof(radius) != "number") ? 20.0 : radius;
+                this.numberOfVertexes = 0;
+				this.numberOfVerticesPerLayer = 0;
+
+                // Starting circle
+				// 6.28
+                for(alpha = 0; alpha <= 6.28; alpha += 0.17) {
+                    p = this.point[this.numberOfVertexes] = new Point3D();
+                    
+                    p.x = Math.cos(alpha) * this.radius;
+                    p.y = 0;
+                    p.z = Math.sin(alpha) * this.radius;
+
+                    this.numberOfVertexes++;
+                }
+				this.numberOfVerticesPerLayer = this.numberOfVertexes;
+				p = this.point[this.numberOfVertexes] = new Point3D();
+				p.x = this.point[this.numberOfVertexes - this.numberOfVerticesPerLayer].x;
+				p.y = this.point[this.numberOfVertexes - this.numberOfVerticesPerLayer].y;
+				p.z = this.point[this.numberOfVertexes - this.numberOfVerticesPerLayer].z;
+				this.numberOfVertexes++;
+
+                // go one way making circles and adding the points
+                // then go the other way
+
+                for(var direction = 1; direction >= -1; direction -= 2) {
+                    for(var beta = 0.17; beta < 1.445; beta += 0.17) {
+                        var radius = Math.cos(beta) * this.radius;
+                        var fixedY = Math.sin(beta) * this.radius * direction;
+
+                        for(var alpha = 0; alpha < 6.28; alpha += 0.17) {
+                            p = this.point[this.numberOfVertexes] = new Point3D();
+
+                            p.x = Math.cos(alpha) * radius;
+                            p.y = fixedY;
+                            p.z = Math.sin(alpha) * radius;
+
+                            this.numberOfVertexes++;
+                        }
+						p = this.point[this.numberOfVertexes] = new Point3D();
+						p.x = this.point[this.numberOfVertexes - this.numberOfVerticesPerLayer].x;
+						p.y = this.point[this.numberOfVertexes - this.numberOfVerticesPerLayer].y;
+						p.z = this.point[this.numberOfVertexes - this.numberOfVerticesPerLayer].z;
+						this.numberOfVertexes++;						
+                    }
+                }
+
+            }
+
+            function rotateX(point, radians) {
+                var y = point.y;
+                point.y = (y * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
+                point.z = (y * Math.sin(radians)) + (point.z * Math.cos(radians));
+            }
+            
+            function rotateY(point, radians) {
+                var x = point.x;
+                point.x = (x * Math.cos(radians)) + (point.z * Math.sin(radians) * -1.0);
+                point.z = (x * Math.sin(radians)) + (point.z * Math.cos(radians));
+            }
+
+            function rotateZ(point, radians) {
+                var x = point.x;
+                point.x = (x * Math.cos(radians)) + (point.y * Math.sin(radians) * -1.0);
+                point.y = (x * Math.sin(radians)) + (point.y * Math.cos(radians));
+            }
+
+            function projection(xy, z, xyOffset, zOffset, distance) {
+                return ((distance * xy) / (z - zOffset)) + xyOffset;
+            }
+
+            function render() {
+                var canvas = document.getElementById("sphere3d");
+                var width = canvas.getAttribute("width");
+                var height = canvas.getAttribute("height");
+                var ctx = canvas.getContext('2d');
+                var x, y, prevX, prevY;
+
+                var p = new Point3D();
+
+				prevX=0;
+				prevY=0;
+					
+                ctx.save();
+                ctx.clearRect(0, 0, width, height);
+
+                ctx.globalCompositeOperation = "lighter";
+                
+                for(i = 0; i < sphere.numberOfVertexes; i++) {
+                    
+                    p.x = sphere.point[i].x;
+                    p.y = sphere.point[i].y;
+                    p.z = sphere.point[i].z;
+
+                    rotateX(p, rotation/2);
+                    rotateY(p, rotation/2);
+                    //rotateZ(p, rotation);
+
+                    x = projection(p.x, p.z, width/2.0, 100.0, distance);
+                    y = projection(p.y, p.z, height/2.0, 100.0, distance);
+
+                    if((x >= 0) && (x < width)) {
+                        if((y >= 0) && (y < height)) {
+						    if((prevX==0) && (prevY==0)){
+							  prevX=x;
+							  prevY=y;
+							}
+							if((i%(sphere.numberOfVerticesPerLayer+1)) != 0){
+								drawLine(ctx, prevX, prevY, x, y, "rgba(20,255,20,0.6)");
+							}
+							prevX=x;
+							prevY=y;
+                        }
+                    }                   
+                }
+                ctx.restore();
+                ctx.fillStyle = "rgba(20,255,20, 0.6)";
+                ctx.fillText(planetName, width-90, height-5);
+                rotation += Math.PI/90.0;
+
+                if(distance < 1000) {
+                    distance += 10;
+                }
+            }
+            
+            function drawLine(ctx, startX, startY, endX, endY, color) {
+                ctx.save();
+                ctx.beginPath();
+				ctx.moveTo(startX,startY);							
+				ctx.strokeStyle = color;
+				ctx.lineTo(endX,endY);
+				ctx.stroke();
+				ctx.restore();						
+            }
+
+            function init(){
+                // Set framerate to 30 fps
+                setInterval(render, 1000/30);
+                
+            }
+
+        </script>
+        
+    </head>
+    <body onload="init();">
+    <span>
+    <canvas id="sphere3d" width="500" height="500">
+        You need canvas
+    </canvas>
+    <div id="ticker-area">Analysing</div>
+    </span>
+</body>
+</html>

@@ -94,16 +94,21 @@ def tradingSpeculative( request ):
     if form.is_valid():
       request.session['tradingSpeculative'] = form.cleaned_data
       
-      goods = determineGoodsAvailable( request.session['tradingCore'],
-                                       request.session['tradingSpeculative'] )
+      if 'goods' not in request.session:
+        goods = determineGoodsAvailable( request.session['tradingCore'],
+                                         request.session['tradingSpeculative'] )
+        request.session['goods'] = goods
       
-      return HttpResponse( str( goods ) )
+      return redirect( '/trading/tradingSelectSpeculative' )
     else:
       raise Exception( 'Form not valid', form.errors )
 
 def tradingSelectSpeculative( request ):
   if request.method == 'GET':
-    pass
+    print request.session['goods']
+    t = loader.get_template( 'trading/tradingSelectSpeculative.html' )
+    c = RequestContext( request, {} )
+    return HttpResponse( t.render( c ) )
   elif request.method == 'POST':
     pass
 

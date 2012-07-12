@@ -76,16 +76,17 @@ trade_lookup = {
 }
 
 class TradeGood():
-  def __init__( self, name, availability, cost, purchase, sale ):
+  def __init__( self, name, availability, cost, purchase, sale, illegal ):
     self.name = name
     self.availability = availability
     self.cost = cost
     self.purchase = purchase
     self.sale = sale
+    self.illegal = illegal
 
 trade_goods = {
   'basicElectronics':
-    TradeGood( 'basicElectronics', '1d6*10', 10000, {
+    TradeGood( 'Basic Electronics', '1d6*10', 10000, {
       'In': 2,
       'Ht': 3,
       'Ri': 1,
@@ -93,33 +94,33 @@ trade_goods = {
       'Ni': 2,
       'Lo': 1,
       'Po': 1,
-    } ),
+    }, False ),
   'basicMachineParts':
-    TradeGood( 'basicMachineParts', '1d6*10', 10000, {
+    TradeGood( 'Basic Machine Parts', '1d6*10', 10000, {
       'Na': 2,
       'In': 5,
     }, {
       'Na': 3,
       'Ag': 2,
-    } ),
+    }, False ),
   'basicManufacturedGoods':
-    TradeGood( 'basicManufacturedGoods', '1d6*10', 10000, {
+    TradeGood( 'Basic Manufactured Goods', '1d6*10', 10000, {
       'Na': 2,
       'In': 5,
     }, {
       'Ni': 3,
       'Hi': 2,
-    } ),
+    }, False ),
   'basicRawMaterials':
-    TradeGood( 'basicRawMaterials', '1d6*10', 5000, {
+    TradeGood( 'Basic Raw Materials', '1d6*10', 5000, {
       'Ag': 3,
       'Ga': 2,
     }, {
       'In': 2,
       'Po': 2,
-    } ),
+    }, False ),
   'basicConsumables':
-    TradeGood( 'basicConsumables', '1d6*10', 2000, {
+    TradeGood( 'Basic Consumables', '1d6*10', 2000, {
       'Ag': 3,
       'Wa': 2,
       'Ga': 1,
@@ -129,127 +130,127 @@ trade_goods = {
       'Fl': 1,
       'Ic': 1,
       'Hi': 1,
-    } ),
+    }, False ),
   'basicOre':
-    TradeGood( 'basicOre', '1d6*10', 1000, {
+    TradeGood( 'Basic Ore', '1d6*10', 1000, {
       'As': 4,
     }, {
       'In': 3,
       'Ni': 1,
-    } ),
+    }, False ),
   'advancedElectronics':
-    TradeGood( 'advancedElectronics', '1d6*5', 100000, {
+    TradeGood( 'Advanced Electronics', '1d6*5', 100000, {
       'In': 2,
       'Ht': 3,
     }, {
       'Ni': 1,
       'Ri': 2,
       'As': 3,
-    } ),
+    }, False ),
   'advancedMachineParts':
-    TradeGood( 'advancedMachineParts', '1d6*5', 75000, {
+    TradeGood( 'Advanced Machine Parts', '1d6*5', 75000, {
       'In': 2,
       'Ht': 1,
     }, {
       'As': 2,
       'Ni': 1,
-    } ),
+    }, False ),
   'advancedManufacturedGoods':
-    TradeGood( 'advancedManufacturedGoods', '1d6*5', 100000, {
+    TradeGood( 'Advanced Manufactured Goods', '1d6*5', 100000, {
       'In': 1,
     }, {
       'Hi': 1,
       'Ri': 2,
-    } ),
+    }, False ),
   'advancedWeapons':
-    TradeGood( 'advancedWeapons', '1d6*5', 150000, {
+    TradeGood( 'Advanced Weapons', '1d6*5', 150000, {
       'Ht': 2,
     }, {
       'Po': 1,
       'A': 2,
       'R': 4,
-    } ),
+    }, False ),
   'advancedVehicles':
-    TradeGood( 'advancedVehicles', '1d6*5', 180000, {
+    TradeGood( 'Advanced Vehicles', '1d6*5', 180000, {
       'Ht': 2,
     }, {
       'As': 2,
       'Ri': 2,
-    } ),
+    }, False ),
   'biochemicals':
-    TradeGood( 'biochemicals', '1d6*5', 50000, {
+    TradeGood( 'Biochemicals', '1d6*5', 50000, {
       'Ag': 1,
       'Wa': 2,
     }, {
       'In': 2,
-    } ),
+    }, False ),
   'crystalsAndGems':
-    TradeGood( 'crystalsAndGems', '1d6*5', 20000, {
+    TradeGood( 'Crystals And Gems', '1d6*5', 20000, {
       'As': 2,
       'De': 1,
       'Ic': 1,
     }, {
       'In': 3,
       'Ri': 2,
-    } ),
+    }, False ),
   'cybernetics':
-    TradeGood( 'cybernetics', '1d6', 10000, {
+    TradeGood( 'Cybernetics', '1d6', 10000, {
     }, {
       'Ht': 1,
       'Ic': 1,
       'Ri': 2,
-    } ),
+    }, False ),
   'liveAnimals':
-    TradeGood( 'liveAnimals', '1d6*10', 10000, {
+    TradeGood( 'Live Animals', '1d6*10', 10000, {
       'Ag': 2,
     }, {
       'Lo': 3,
-    } ),
+    }, False ),
   'luxuryConsumables':
-    TradeGood( 'luxuryConsumables', '1d6*10', 20000, {
+    TradeGood( 'Luxury Consumables', '1d6*10', 20000, {
       'Ag': 2,
       'Wa': 1,
     }, {
       'Ri': 2,
       'Hi': 2,
-    } ),
+    }, False ),
   'luxuryGoods':
-    TradeGood( 'luxuryGoods', '1d6', 200000, {
+    TradeGood( 'Luxury Goods', '1d6', 200000, {
     }, {
       'Ri': 4,
-    } ),
+    }, False ),
   'medicalSupplies':
-    TradeGood( 'medicalSupplies', '1d6*5', 50000, {
+    TradeGood( 'Medical Supplies', '1d6*5', 50000, {
       'Ht': 2,
     }, {
       'In': 2,
       'Po': 1,
       'Ri': 1,
-    } ),
+    }, False ),
   'petrochemicals':
-    TradeGood( 'petrochemicals', '1d6', 100000, {
+    TradeGood( 'Petrochemicals', '1d6', 100000, {
       'De': 2,
     }, {
       'In': 2,
       'Ag': 1,
       'Lo': 2
-    } ),
+    }, False ),
   'pharmaceuticals':
-    TradeGood( 'pharmaceuticals', '1d6', 100000, {
+    TradeGood( 'Pharmaceuticals', '1d6', 100000, {
       'As': 2,
       'Hi': 1,
     }, {
       'Ri': 2,
       'Lo': 1,
-    } ),
+    }, False ),
   'polymers':
-    TradeGood( 'polymers', '1d6*10', 7000, {
+    TradeGood( 'Polymers', '1d6*10', 7000, {
     }, {
       'Ri': 2,
       'Ni': 1,
-    } ),
+    }, False ),
   'preciousMetals':
-    TradeGood( 'preciousMetals', '1d6', 50000, {
+    TradeGood( 'Precious Metals', '1d6', 50000, {
       'As': 3,
       'De': 1,
       'Ic': 2,
@@ -257,9 +258,9 @@ trade_goods = {
       'Ri': 3,
       'In': 2,
       'Ht': 1
-    } ),
+    }, False ),
   'radioactives':
-    TradeGood( 'radioactives', '1d6', 1000000, {
+    TradeGood( 'Radioactives', '1d6', 1000000, {
       'As': 2,
       'Lo': -4,
     }, {
@@ -267,94 +268,94 @@ trade_goods = {
       'Ht': 1,
       'Ni': -2,
       'Ag': -3,
-    } ),
+    }, False ),
   'robots':
-    TradeGood( 'robots', '1d6*5', 400000, {
+    TradeGood( 'Robots', '1d6*5', 400000, {
     }, {
       'Ag': 2,
       'Ht': 1,
-    } ),
+    }, False ),
   'spices':
-    TradeGood( 'spices', '1d6*5', 6000, {
+    TradeGood( 'Spices', '1d6*5', 6000, {
       'De': 2,
     }, {
       'Hi': 2,
       'Ri': 3,
       'Po': 3,
-    } ),
+    }, False ),
   'textiles':
-    TradeGood( 'textiles', '1d6*10', 3000, {
+    TradeGood( 'Textiles', '1d6*10', 3000, {
       'Ag': 7,
     }, {
       'Hi': 3,
       'Na': 2,
-    } ),
+    }, False ),
   'uncommonOre':
-    TradeGood( 'uncommonOre', '1d6*10', 5000, {
+    TradeGood( 'Uncommon Ore', '1d6*10', 5000, {
       'As': 4,
     }, {
       'In': 3,
       'Ni': 1,
-    } ),
+    }, False ),
   'uncommonRawMaterials':
-    TradeGood( 'uncommonRawMaterials', '1d6*10', 20000, {
+    TradeGood( 'Uncommon Raw Materials', '1d6*10', 20000, {
       'Ag': 2,
     }, {
       'In': 2,
       'Ht': 1,
-    } ),
+    }, False ),
   'wood':
-    TradeGood( 'wood', '1d6*10', 1000, {
+    TradeGood( 'Wood', '1d6*10', 1000, {
       'Ag': 6,
     }, {
       'Ri': 2,
       'In': 1,
-    } ),
+    }, False ),
   'vehicles':
-    TradeGood( 'vehicles', '1d6*10', 15000, {
+    TradeGood( 'Vehicles', '1d6*10', 15000, {
       'In': 2,
       'Ht': 1,
     }, {
       'Ni': 2,
       'Hi': 1,
-    } ),
+    }, False ),
   'illegalBiochemicals':
-    TradeGood( 'illegalBiochemicals', '1d6*5', 50000, {
+    TradeGood( 'Illegal Biochemicals', '1d6*5', 50000, {
       'Wa': 2,
     }, {
       'In': 6,
-    } ),
+    }, True ),
   'illegalCybernetics':
-    TradeGood( 'illegalCybernetics', '1d6', 250000, {
+    TradeGood( 'Illegal Cybernetics', '1d6', 250000, {
     }, {
       'As': 4,
       'Ic': 4,
       'Ri': 8,
       'A': 6,
       'R': 6,
-    } ),
+    }, True ),
   'illegalDrugs':
-    TradeGood( 'illegalDrugs', '1d6', 100000, {
+    TradeGood( 'Illegal Drugs', '1d6', 100000, {
     }, {
       'Ri': 6,
       'Hi': 6,
-    } ),
+    }, True ),
   'illegalLuxuries':
-    TradeGood( 'illegalLuxuries', '1d6', 50000, {
+    TradeGood( 'Illegal Luxuries', '1d6', 50000, {
       'Ag': 2,
       'Wa': 1,
     }, {
       'Ri': 6,
       'Hi': 4,
-    } ),
+    }, True ),
   'illegalWeapons':
-    TradeGood( 'illegalWeapons', '1d6*5', 150000, {
+    TradeGood( 'Illegal Weapons', '1d6*5', 150000, {
       'Ht': 2,
     }, {
       'Po': 6,
       'A': 8,
       'R': 10,
-    } ),
+    }, True ),
 }
 '''
 template
@@ -391,17 +392,19 @@ def determineGoodsAvailable( tradingCore, tradingSpeculative ):
 
   for c in merchantGoods:
     item = trade_goods[c]
-    if item.name not in availableGoods:
-      availableGoods[item.name] = {
+    if c not in availableGoods:
+      availableGoods[c] = {
+        'display': item.name,
         'cost': item.cost,
         'availability': parseDiceExpr( item.availability ),
         'purchaseDm': tradingSpeculative['broker'] + \
                       tradingSpeculative['intOrSocial'] + \
                       __calcGoodsDM( item.purchase, startPlanet ) - \
-                      __calcGoodsDM( item.sale, startPlanet )
+                      __calcGoodsDM( item.sale, startPlanet ),
+        'illegal': item.illegal
       }
     else:
-      availableGoods[item.name]['availability'] += parseDiceExpr( item.availability )
+      availableGoods[c]['availability'] += parseDiceExpr( item.availability )
   # filter illegal goods
   return availableGoods
 

@@ -1,0 +1,26 @@
+{% extends "trading/base.html" %}
+
+{% block content %}
+<div class="container">
+  <form class="form-inline well">
+    <h4>'{{ request.session.tradingSpeculative.supplier }}' supplier found!</h4>
+    <fieldset>
+      <table class="table table-bordered">
+        <thead>
+          <th>Item</th><th>Base Cost (Cr.)</th><th>Availability</th><th>Purchase DM</th><th class="span1">Negotiate</th><th>Negotiated Price (Cr.)</th>
+        </thead>
+        <tbody>
+        {% for key, value in request.session.goods.items %}
+          <tr>
+            <td>{{ value.display }}</td><td>{{ value.cost }}</td><td>{{ value.availability }}</td><td>{{ value.purchaseDm }}</td><td><input id="{{ key }}" class="btn btn-inverse" type="button" value="Negotiate" onclick="purchase('{{ key }}')"/></td><td></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <div class="form-actions">
+        <input class="btn btn-primary" type="submit" value="Engage!" />
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

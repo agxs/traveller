@@ -269,6 +269,8 @@ class Planet(models.Model):
       tradeCode += "Va "
     if self.isWaterWorld():
       tradeCode += "Wa "
+
+    tradeCode += self.zone
     
     return tradeCode.strip()
     

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-  <form class="form-inline well">
+  <form class="form-inline well" method="POST" action="tradingSelectSpeculative">
     <h4>'{{ request.session.tradingSpeculative.supplier }}' supplier found!</h4>
     <fieldset>
       <table class="table table-bordered">
@@ -12,7 +12,12 @@
         <tbody>
         {% for key, value in request.session.goods.items %}
           <tr>
-            <td>{{ value.display }}</td><td>{{ value.cost }}</td><td>{{ value.availability }}</td><td>{{ value.purchaseDm }}</td><td><input id="{{ key }}" class="btn btn-inverse" type="button" value="Negotiate" onclick="purchase('{{ key }}')"/></td><td></td>
+            <td>{{ value.display }}</td>
+            <td>{{ value.cost }}</td>
+            <td>{{ value.availability }}</td>
+            <td>{{ value.purchaseDm }}</td>
+            <td><input id="{{ key }}" class="btn btn-inverse" type="button" value="Negotiate" onclick="purchase('{{ key }}')"/></td>
+            <td id="{{ key }}Cell"></td>
           </tr>
         {% endfor %}
         </tbody>

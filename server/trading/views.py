@@ -94,6 +94,8 @@ def tradingSpeculative( request ):
     if form.is_valid():
       request.session['tradingSpeculative'] = form.cleaned_data
       
+      # TODO check if supplier found
+      
       if 'goods' not in request.session:
         goods = determineGoodsAvailable( request.session['tradingCore'],
                                          request.session['tradingSpeculative'] )
@@ -117,6 +119,12 @@ def tradingSelectFreight( request ):
     pass
   elif request.method == 'POST':
     pass
+
+def tradingNegotiateTradeGood( request ):
+  if request.method == 'POST':
+    return HttpResponse( '{"cost": 1000}', content_type="application/json; charset=utf-8" )
+  else:
+    raise Exception( 'GET not supported' )
 
 ################
 # Form objects #

@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^tradingSpeculative$', 'trading.views.tradingSpeculative'),
     url(r'^tradingSelectSpeculative$', 'trading.views.tradingSelectSpeculative'),
     url(r'^tradingSelectFreight$', 'trading.views.tradingSelectFreight'),
+    url(r'^tradingNegotiateTradeGood$', 'trading.views.tradingNegotiateTradeGood'),
     
     url(r'^mock$', 'trading.views.mock'),
 )

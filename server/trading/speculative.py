@@ -377,19 +377,44 @@ def determineGoodsAvailable( tradingCore, tradingSpeculative ):
   for t in startPlanet.generateTradeCode().split( " " ):
     merchantGoods += trade_code_with_goods[t]
 
+  extra_goods = parseDiceExpr( "1d6" )
+  for i in range( extra_goods ):
+    # no do-while in python?
+    while True:
+      tens = parseDiceExpr( "1d6" )
+      units = parseDiceExpr( "1d6" )
+      dice_total = tens * 10 + units
+      # roll again on 66
+      if dice_total < 66:
+        break;
+    merchantGoods += ( trade_lookup[dice_total], )
+
   for c in merchantGoods:
     item = trade_goods[c]
     if item.name not in availableGoods:
       availableGoods[item.name] = {
         'cost': item.cost,
         'availability': parseDiceExpr( item.availability ),
-        # purchase dm
+        'purchaseDm': tradingSpeculative['broker'] + \
+                      tradingSpeculative['intOrSocial'] + \
+                      __calcGoodsDM( item.purchase, startPlanet ) - \
+                      __calcGoodsDM( item.sale, startPlanet )
       }
     else:
-      availableGoods[item.name].availablity += parseDiceExpr( item.availability )
-  # roll for common goods
-  # determine non-common goods
-  # roll for non-common
-  # determine illegal goods
-  # roll for illegal
+      availableGoods[item.name]['availability'] += parseDiceExpr( item.availability )
+  # filter illegal goods
   return availableGoods
+
+# Calculates the purchase/sale DM for each trade good.
+# trade_codes is a list of planet trade codes which the trade good has
+# planet is the Planet where the purchase/sale is occuring
+def __calcGoodsDM( trade_codes, planet ):
+  dms = set( trade_codes ).intersection( planet.generateTradeCode().split( " " ) )
+  maxDm = 0
+  for p in dms:
+    if trade_codes[p] > maxDm:
+      maxDm = trade_codes[p]
+  print str( dms ) + " " + str( maxDm )
+
+  return maxDm
+

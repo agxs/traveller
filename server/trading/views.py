@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django import forms
 from trading.passengers import calculateAvailablePassengers
 from trading.mail import canCarryMail
-from trading.speculative import determineGoodsAvailable
+from trading.speculative import determineGoodsAvailable, negotiateTradeTood
 
 def tradingCore( request ):
   if request.method == 'GET':
@@ -122,6 +122,7 @@ def tradingSelectFreight( request ):
 
 def tradingNegotiateTradeGood( request ):
   if request.method == 'POST':
+    negotiateTradeTood( request.POST['item'] )
     return HttpResponse( '{"cost": 1000}', content_type="application/json; charset=utf-8" )
   else:
     raise Exception( 'GET not supported' )

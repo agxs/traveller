@@ -421,3 +421,5 @@ def __calcGoodsDM( trade_codes, planet ):
 
   return maxDm
 
+def negotiateTradeTood( item ):
+  pass

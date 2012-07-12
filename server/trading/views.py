@@ -94,7 +94,8 @@ def tradingSpeculative( request ):
     if form.is_valid():
       request.session['tradingSpeculative'] = form.cleaned_data
       
-      goods = determineGoodsAvailable( request.session['tradingSpeculative'] )
+      goods = determineGoodsAvailable( request.session['tradingCore'],
+                                       request.session['tradingSpeculative'] )
       
       return HttpResponse( str( goods ) )
     else:

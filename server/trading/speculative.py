@@ -1,32 +1,41 @@
-commonGoods = ( 'basicElectronics', 'basicMachineParts', 'basicManufacturedGoods',
-                'basicRawMaterials', 'basicConsumables', 'basicOre' )
-agricultural = ( 'biochemicals', 'liveAnimals', 'luxuryConsumables', 'textiles',
-                 'uncommonRawMaterials', 'wood', 'illegalBiochemicals', 'illegalLuxuries' )
-asteroid = ( 'crystalsAndGems', 'pharmaceuticals', 'preciousMetals', 'radioactives',
-             'uncommonOre', 'illegalDrugs' )
-barren = ()
-desert = ( 'crystalsAndGems', 'petrochemicals', 'pharmaceuticals', 'preciousMetals',
-           'radioactives', 'spices', 'uncommonRawMaterials',
-           'illegalDrugs', 'illegalLuxuries' )
-fluidOceans = ( 'petrochemicals', 'preciousMetals' )
-garden = ( 'liveAnimals', 'luxuryConsumables', 'spices', 'wood' )
-highPopulation = ( 'luxuryGoods', 'medicalSupplies', 'pharmaceuticals', 'illegalDrugs' )
-highTechnology = ( 'advancedElectronics', 'advancedMachineParts', 'advancedManufacturedGoods',
-                   'advancedWeapons', 'advancedVehicles', 'cybernetics', 'medicalSupplies',
-                   'robots', 'vehicles', 'illegalWeapons' )
-iceCapped = ( 'crystalsAndGems', 'petrochemicals', 'preciousMetals', 'uncommonOre' )
-industrial = ( 'advancedElectronics', 'advancedMachineParts', 'advancedManufacturedGoods',
-               'advancedWeapons', 'advancedVehicles', 'polymers', 'robots', 'vehicles',
-               'illegalWeapons' )
-lowPopulation = ( 'radioactives' )
-lowTechnology = ()
-nonIndustrial = ( 'textiles' )
-poor = ()
-rich = ()
-vacuum = ()
-waterWorld = ( 'biochemicals', 'luxuryConsumables', 'petrochemicals', 'pharmaceuticals',
-               'spices', 'uncommonRawMaterials', 'illegalBiochemicals', 'illegalDrugs',
-               'illegalLuxuries' )
+from utils.dice import parseDiceExpr
+from planetserve.models import Planet
+from django.shortcuts import get_object_or_404
+
+trade_code_with_goods = {
+  'common_goods': ( 'basicElectronics', 'basicMachineParts', 'basicManufacturedGoods',
+                   'basicRawMaterials', 'basicConsumables', 'basicOre' ),
+  'Ag': ( 'biochemicals', 'liveAnimals', 'luxuryConsumables', 'textiles',
+          'uncommonRawMaterials', 'wood', 'illegalBiochemicals', 'illegalLuxuries' ),
+  'As': ( 'crystalsAndGems', 'pharmaceuticals', 'preciousMetals', 'radioactives',
+          'uncommonOre', 'illegalDrugs' ),
+  'Ba': (),
+  'De': ( 'crystalsAndGems', 'petrochemicals', 'pharmaceuticals', 'preciousMetals',
+          'radioactives', 'spices', 'uncommonRawMaterials',
+          'illegalDrugs', 'illegalLuxuries' ),
+  'Fl': ( 'petrochemicals', 'preciousMetals' ),
+  'Ga': ( 'liveAnimals', 'luxuryConsumables', 'spices', 'wood' ),
+  'Hi': ( 'luxuryGoods', 'medicalSupplies', 'pharmaceuticals', 'illegalDrugs' ),
+  'Ht': ( 'advancedElectronics', 'advancedMachineParts', 'advancedManufacturedGoods',
+          'advancedWeapons', 'advancedVehicles', 'cybernetics', 'medicalSupplies',
+          'robots', 'vehicles', 'illegalWeapons' ),
+  'Ic': ( 'crystalsAndGems', 'petrochemicals', 'preciousMetals', 'uncommonOre' ),
+  'In': ( 'advancedElectronics', 'advancedMachineParts', 'advancedManufacturedGoods',
+          'advancedWeapons', 'advancedVehicles', 'polymers', 'robots', 'vehicles',
+          'illegalWeapons' ),
+  'Lo': ( 'radioactives' ),
+  'Lt': (),
+  'Ni': ( 'textiles' ),
+  'Po': (),
+  'Ri': (),
+  'Va': (),
+  'Wa': ( 'biochemicals', 'luxuryConsumables', 'petrochemicals', 'pharmaceuticals',
+          'spices', 'uncommonRawMaterials', 'illegalBiochemicals', 'illegalDrugs',
+          'illegalLuxuries' ),
+  'G': (),
+  'A': (),
+  'R': (),
+}
 
 trade_lookup = {
   11: 'basicElectronics',
@@ -157,8 +166,8 @@ trade_goods = {
       'Ht': 2,
     }, {
       'Po': 1,
-      'Az': 2,
-      'Rz': 4,
+      'A': 2,
+      'R': 4,
     } ),
   'advancedVehicles':
     TradeGood( 'advancedVehicles', '1d6*5', 180000, {
@@ -321,8 +330,8 @@ trade_goods = {
       'As': 4,
       'Ic': 4,
       'Ri': 8,
-      'Az': 6,
-      'Rz': 6,
+      'A': 6,
+      'R': 6,
     } ),
   'illegalDrugs':
     TradeGood( 'illegalDrugs', '1d6', 100000, {
@@ -343,8 +352,8 @@ trade_goods = {
       'Ht': 2,
     }, {
       'Po': 6,
-      'Az': 8,
-      'Rz': 10,
+      'A': 8,
+      'R': 10,
     } ),
 }
 '''
@@ -359,10 +368,28 @@ template
     } ),
 '''
 
-def determineGoodsAvailable( tradingSpeculative ):
+def determineGoodsAvailable( tradingCore, tradingSpeculative ):
+
+  startPlanet = get_object_or_404( Planet, location__exact=tradingCore['startPlanet'] )
+  availableGoods = {}
+
+  merchantGoods = trade_code_with_goods['common_goods']
+  for t in startPlanet.generateTradeCode().split( " " ):
+    merchantGoods += trade_code_with_goods[t]
+
+  for c in merchantGoods:
+    item = trade_goods[c]
+    if item.name not in availableGoods:
+      availableGoods[item.name] = {
+        'cost': item.cost,
+        'availability': parseDiceExpr( item.availability ),
+        # purchase dm
+      }
+    else:
+      availableGoods[item.name].availablity += parseDiceExpr( item.availability )
   # roll for common goods
   # determine non-common goods
   # roll for non-common
   # determine illegal goods
   # roll for illegal
-  pass
+  return availableGoods

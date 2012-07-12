@@ -378,7 +378,7 @@ def determineGoodsAvailable( tradingCore, tradingSpeculative ):
     merchantGoods += trade_code_with_goods[t]
 
   extra_goods = parseDiceExpr( "1d6" )
-  for i in range( extra_goods ):
+  for _ in range( extra_goods ):
     # no do-while in python?
     while True:
       tens = parseDiceExpr( "1d6" )

@@ -1,6 +1,9 @@
 from utils.dice import parseDiceExpr
 from planetserve.models import Planet
 from django.shortcuts import get_object_or_404
+import logging
+
+logger = logging.getLogger( __name__ )
 
 trade_code_with_goods = {
   'common_goods': ( 'basicElectronics', 'basicMachineParts', 'basicManufacturedGoods',
@@ -417,7 +420,7 @@ def __calcGoodsDM( trade_codes, planet ):
   for p in dms:
     if trade_codes[p] > maxDm:
       maxDm = trade_codes[p]
-  print str( dms ) + " " + str( maxDm )
+  logger.info( str( dms ) + " " + str( maxDm ) )
 
   return maxDm
 

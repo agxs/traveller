@@ -2,6 +2,9 @@ from trading.freight import calculateFreightTrafficModifer
 from django.shortcuts import get_object_or_404
 from planetserve.models import Planet
 from utils.dice import parseDiceExpr
+import logging
+
+logger = logging.getLogger( __name__ )
 
 def canCarryMail( tradingCore, tradingMail ):
   tm = calculateFreightTrafficModifer( tradingCore['startPlanet'], tradingCore['destinationPlanet'] )
@@ -32,5 +35,5 @@ def canCarryMail( tradingCore, tradingMail ):
     mailMod -= 4
   
   mailRoll = parseDiceExpr( "2d12+" + str( mailMod ) )
-  print "Rolled " + str( mailRoll ) + " for mail."
+  logger.info( "Rolled " + str( mailRoll ) + " for mail." )
   return mailRoll >= 12

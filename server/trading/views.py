@@ -5,6 +5,9 @@ from django import forms
 from trading.passengers import calculateAvailablePassengers
 from trading.mail import canCarryMail
 from trading.speculative import determineGoodsAvailable, negotiateTradeTood
+import logging
+
+logger = logging.getLogger( __name__ )
 
 def tradingCore( request ):
   if request.method == 'GET':
@@ -34,9 +37,9 @@ def tradingPassenger( request ):
         availablePassengers = calculateAvailablePassengers( request.session['tradingCore'], \
                                                             request.session['passenger'] )
         request.session['availablePassengers'] = availablePassengers
-        print "Calculating new available passengers: " + str( availablePassengers )
+        logger.info( "Calculating new available passengers: " + str( availablePassengers ) )
       else:
-        print "Reusing available passengers from session: " + str( request.session['availablePassengers'] )
+        logger.info( "Reusing available passengers from session: " + str( request.session['availablePassengers'] ) )
         
       return redirect( '/trading/tradingSelectPassenger' )
     else:
@@ -76,9 +79,9 @@ def tradingMail( request ):
       if 'canCarryMail' not in request.session:
         mail = canCarryMail( request.session['tradingCore'], request.session['tradingMail'] )
         request.session['canCarryMail'] = mail
-        print "Calculating new Can carry mail: " + str( request.session['canCarryMail'] )
+        logger.info( "Calculating new Can carry mail: " + str( request.session['canCarryMail'] ) )
       else:
-        print "Reusing mail from session: " + str( request.session['canCarryMail'] )
+        logger.info( "Reusing mail from session: " + str( request.session['canCarryMail'] ) )
       
       return redirect( '/trading/tradingSpeculative' )
     else:
@@ -107,7 +110,7 @@ def tradingSpeculative( request ):
 
 def tradingSelectSpeculative( request ):
   if request.method == 'GET':
-    print request.session['goods']
+    logger.info( request.session['goods'] )
     t = loader.get_template( 'trading/tradingSelectSpeculative.html' )
     c = RequestContext( request, {} )
     return HttpResponse( t.render( c ) )
